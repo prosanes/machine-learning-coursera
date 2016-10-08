@@ -20,12 +20,14 @@ grad = zeros(size(theta));
 
 summ = (-y' * log(sigmoid(X * theta))) - ((1 - y') * log(1 - sigmoid(X * theta)));
 J = summ / m;
-theta_reg = theta(2:end,1)
-J = J + lambda*sum(theta_reg .^ 2) / (2 * m)
+theta_reg = theta(2:end,1);
+J = J + lambda*sum(theta_reg .^ 2) / (2 * m);
 
-%
-% grad = sum(((sigmoid(X * theta) - y) .* X)) / m;
 
+grad = sum(((sigmoid(X * theta) - y) .* X)) / m;
+theta_reg2 = [0; theta_reg];
+theta_reg2 = theta_reg2 .* ( lambda / m );
+grad = grad + theta_reg2';
 
 
 
