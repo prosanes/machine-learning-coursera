@@ -48,7 +48,8 @@ theta_reg2 = [0; theta_reg];
 theta_reg2 = theta_reg2 .* ( lambda / m );
 grad = grad + theta_reg2';
 
-
 % =============================================================
+
+grad = grad(:);
 
 end
