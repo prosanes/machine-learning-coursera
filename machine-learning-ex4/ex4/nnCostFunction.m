@@ -45,7 +45,7 @@ a3 = m_a3s;
 
 % m_ys = sparse(m_label_indexes,1:m,1,num_labels,m)';
 % m_ys = eye(num_labels)(m_label_indexes,:);
-y_matrix = eye(num_labels)(m_label_indexes,:);
+y_matrix = eye(num_labels)(y,:);
 
 % tmp = (-m_ys .* log(m_a3s)) - ((1 - m_ys) .* log(1 - m_a3s));
 % tmp = (-y_matrix .* log(a3)) - ( (1-y_matrix) .* log(1-a3) );
