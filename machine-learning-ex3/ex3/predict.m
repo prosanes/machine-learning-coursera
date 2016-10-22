@@ -30,11 +30,11 @@ for example = 1:m
   AllA3(example, :) = a3;
 end
 
-% FAILED ATTEMPT OF FULL VECTORIZED IMPLEMENTATION
-% A1 = [ones(size(X,1),1) X]';
+% FIXED VERSION. Not tested. Cheated looking at predict.m from ex4
+% A1 = [ones(m,1) X]';
 % A2_tmp = Theta1 * A1;
-% A2_tmp2 = [ones(1,size(A2_tmp, 2)); A2_tmp];
-% A2 = sigmoid(A2_tmp2);
+% A2 = sigmoid(A2_tmp);
+% A3_tmp = [ones(1,size(A2, 2)); A2];
 % A3 = sigmoid(Theta2 * A2);
 % AllA3 = A3';
 
