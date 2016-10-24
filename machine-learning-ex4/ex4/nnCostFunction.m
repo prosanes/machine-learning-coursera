@@ -105,6 +105,11 @@ Theta2_grad = Delta2 / m;
 %               and Theta2_grad from Part 2.
 %
 
+Delta1_reg = (lambda / m) .* Theta1(:,2:end);
+Delta2_reg = (lambda / m) .* Theta2(:,2:end);
+
+Theta1_grad += [zeros(size(Theta1,1),1) Delta1_reg];
+Theta2_grad += [zeros(size(Theta2,1),1) Delta2_reg];
 
 
 % -------------------------------------------------------------
