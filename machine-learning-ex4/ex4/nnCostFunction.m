@@ -39,25 +39,26 @@ Theta2_grad = zeros(size(Theta2));
 %         cost function computation is correct by verifying the cost
 %         computed in ex4.m
 
-m_label_indexes = predict(Theta1, Theta2, X);
-m_a3s = feedforward(Theta1, Theta2, X);
-a3 = m_a3s;
+p = zeros(size(X, 1), 1);
 
-% m_ys = sparse(m_label_indexes,1:m,1,num_labels,m)';
-% m_ys = eye(num_labels)(m_label_indexes,:);
+a1 = [ones(m, 1) X];
+
+z2 = a1 * Theta1';
+a2_no_bias = sigmoid(z2);
+
+a2 = [ones(m, 1) a2_no_bias];
+z3 = a2 * Theta2';
+a3 = sigmoid(z3);
+
 y_matrix = eye(num_labels)(y,:);
-
-% tmp = (-m_ys .* log(m_a3s)) - ((1 - m_ys) .* log(1 - m_a3s));
-% tmp = (-y_matrix .* log(a3)) - ( (1-y_matrix) .* log(1-a3) );
-% tmp = (-y_matrix .* log(a3)) - ( (1-y_matrix) .* log(1-a3) );
-% J = sum(sum(tmp,"double"),"double") / m;
 
 J = sum(sum((-y_matrix).*log(a3) - (1-y_matrix).*log(1-a3), 2))/m;
 
+reg = sum(sum((Theta1(:,2:end) .^ 2))) + sum(sum((Theta2(:,2:end) .^ 2)));
+reg *= lambda / (2*m);
 
-
-
-
+J = J + reg;
+  
 %
 % Part 2: Implement the backpropagation algorithm to compute the gradients
 %         Theta1_grad and Theta2_grad. You should return the partial derivatives of
@@ -73,6 +74,28 @@ J = sum(sum((-y_matrix).*log(a3) - (1-y_matrix).*log(1-a3), 2))/m;
 %         Hint: We recommend implementing backpropagation using a for-loop
 %               over the training examples if you are implementing it for the 
 %               first time.
+
+Theta1_grad = zeros(size(Theta1));
+Theta2_grad = zeros(size(Theta2));
+
+a1_no_bias = X;
+a1 = [ones(m, 1) X];
+z2 = a1 * Theta1';
+a2_no_bias = sigmoid(z2);
+a2 = [ones(m, 1) a2_no_bias];
+z3 = a2 * Theta2';
+a3 = sigmoid(z3);
+
+d3 = a3 - y_matrix;
+d2 = (d3 * Theta2(:,2:end)) .* sigmoidGradient(z2);
+
+Delta1 = d2' * a1;
+Delta2 = d3' * a2;
+
+%
+Theta1_grad = Delta1 / m;
+Theta2_grad = Delta2 / m;
+
 %
 % Part 3: Implement regularization with the cost function and gradients.
 %
@@ -81,22 +104,6 @@ J = sum(sum((-y_matrix).*log(a3) - (1-y_matrix).*log(1-a3), 2))/m;
 %               the regularization separately and then add them to Theta1_grad
 %               and Theta2_grad from Part 2.
 %
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
